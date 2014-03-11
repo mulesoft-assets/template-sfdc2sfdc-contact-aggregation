@@ -1,10 +1,10 @@
 
-# Mule Kick: SFDC2SFDCContactAggregation
+# Mule Anypoint Template: SFDC2SFDCContactAggregation
 
 + [Use Case](#usecase)
 + [Run it!](#runit)
     * [Running on CloudHub](#runoncloudhub)
-    	* [Deploying your Kick on CloudHub](#deployingyourkickoncloudhub)
+    	* [Deploying your Template on CloudHub](#deployingyourtemplateoncloudhub)
     * [Running on premise](#runonopremise)
         * [Properties to be configured](#propertiestobeconfigured)
 + [Customize It!](#customizeit)
@@ -12,7 +12,7 @@
     * [inboundEndpoints.xml](#inboundendpointsxml)
     * [businessLogic.xml](#businesslogicxml)
     * [errorHandling.xml](#errorhandlingxml)
-+ [Testing the Kick](#testingthekick)
++ [Testing the Template](#testingthetemplate)
 
 # Use Case <a name="usecase"/>
 
@@ -27,8 +27,8 @@ While [creating your application on CloudHub](http://www.mulesoft.org/documentat
 
 Once your app is all set and started, supposing you choose as domain name `SFDC2SFDCContactAggregation` to trigger the use case you just need to hit `http://SFDC2SFDCContactAggregation.cloudhub.io/synccontacts` and report will be sent to the emails configured.
 
-### Deploying your Kick on CloudHub <a name="deployingyourkickoncloudhub"/>
-Mule Studio provides you with really easy way to deploy your Kick directly to CloudHub, for the specific steps to do so please check this [link](http://www.mulesoft.org/documentation/display/current/Deploying+Mule+Applications#DeployingMuleApplications-DeploytoCloudHub)
+### Deploying your Template on CloudHub <a name="deployingyourtemplateoncloudhub"/>
+Mule Studio provides you with really easy way to deploy your Template directly to CloudHub, for the specific steps to do so please check this [link](http://www.mulesoft.org/documentation/display/current/Deploying+Mule+Applications#DeployingMuleApplications-DeploytoCloudHub)
 
 
 ## Running on premise <a name="runonopremise"/>
@@ -37,12 +37,12 @@ Complete all properties in one of the property files, for example in [mule.prod.
 After this, to trigger the use case you just need to hit the local http endpoint with the port you configured in your file. If this is, for instance, `9090` then you should hit: `http://localhost:9090/synccontacts` and this will create a CSV report and send it to the mails set.
 
 ## Properties to be configured (With examples)<a name="propertiestobeconfigured"/>
-In order to use this Mule Kick you need to configure properties (Credentials, configurations, etc.) either in properties file or in CloudHub as Environment Variables. Detail list with examples:
+In order to use this Mule Template you need to configure properties (Credentials, configurations, etc.) either in properties file or in CloudHub as Environment Variables. Detail list with examples:
 ...
 
 # Customize It!<a name="customizeit"/>
-This brief guide intends to give a high level idea of how this Kick is built and how you can change it according to your needs.
-As mule applications are based on XML files, this page will be organised by describing all the XML that conform the Kick.
+This brief guide intends to give a high level idea of how this Template is built and how you can change it according to your needs.
+As mule applications are based on XML files, this page will be organised by describing all the XML that conform the Template.
 Of course more files will be found such as Test Classes and [Mule Application Files](http://www.mulesoft.org/documentation/display/current/Application+Format), but to keep it simple we will focus on the XMLs.
 
 Here is a list of the main XML files you'll find in this application:
@@ -67,7 +67,7 @@ It is intented to define the application API.
 ...
 
 ## businessLogic.xml<a name="businesslogicxml"/>
-This file holds the functional aspect of the kick , directed by one flow responsible of conducting the business logic.
+This file holds the functional aspect of the template, directed by one flow responsible of conducting the business logic.
 ...
 
 
@@ -77,9 +77,9 @@ This file holds a [Choice Exception Strategy](http://www.mulesoft.org/documentat
 ...
 
 
-## Testing the Kick <a name="testingthekick"/>
+## Testing the Template <a name="testingthetemplate"/>
 
-You will notice that the Kick has been shipped with test.
+You will notice that the Template has been shipped with test.
 These devidi them self into two categories:
 
 + Unit Tests
