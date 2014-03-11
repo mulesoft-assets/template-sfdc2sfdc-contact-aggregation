@@ -7,7 +7,7 @@
 	<artifactId>sfdc2sfdc-contact-aggregation</artifactId>
 	<packaging>mule</packaging>
 	<version>1.0.0</version>
-    <name>SFDC2SFDCContactAggregation Mule Kick Project</name>
+    <name>SFDC2SFDCContactAggregation Mule Template Project</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

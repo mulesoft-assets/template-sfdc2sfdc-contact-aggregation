@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" 
+xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" 
+xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
 xmlns="http://www.mulesoft.org/schema/mule/core" 
 xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
 xmlns:spring="http://www.springframework.org/schema/beans" 
-version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
  
  <data-mapper:config name="csvreport_grf" transformationGraphPath="csvreport.grf" doc:name="DataMapper"/>
@@ -22,20 +26,20 @@ This flow should control the direction of the application, and it should be call
     </flow>
   
     <sub-flow name="gatherDataFlow" doc:name="gatherDataFlow">
-        <enricher source="#[payload]" target="#[flowVars['usersFromOrgA']]" doc:name="Store result in FlowVar 'usersFromOrgA'">
-            <sfdc:query config-ref="SalesforceA" query="dsql:SELECT Name, Email, Username, Id  FROM User" doc:name="query all users from SalesForce instance A"/>
+        <enricher source="#[payload]" target="#[flowVars['contactsFromOrgA']]" doc:name="Store result in FlowVar 'contactsFromOrgA'">
+            <sfdc:query config-ref="SalesforceA" query="dsql:SELECT Name, Email, Id  FROM Contact" doc:name="query all contacts from SalesForce instance A"/>
         </enricher>
-        <enricher source="#[payload]" target="#[flowVars['usersFromOrgB']]" doc:name="Store result in FlowVar 'usersFromOrgB'">
-            <sfdc:query config-ref="SalesforceB" query="dsql:SELECT Name, Email, Username, Id  FROM User" doc:name="query all users from SalesForce instance B"/>
+        <enricher source="#[payload]" target="#[flowVars['contactsFromOrgB']]" doc:name="Store result in FlowVar 'contactsFromOrgB'">
+            <sfdc:query config-ref="SalesforceB" query="dsql:SELECT Name, Email, Id  FROM Contact" doc:name="query all contacts from SalesForce instance B"/>
         </enricher>
     </sub-flow>
 
     <sub-flow name="aggregationFlow" doc:name="aggregationFlow">
-        <custom-transformer class="org.mule.templates.transformers.SFDCContactMerge" doc:name="Custom component to build merged users list"/>
+        <custom-transformer class="org.mule.templates.transformers.SFDCContactMerge" doc:name="Custom component to build merged contacts list"/>
     </sub-flow>
     
     <sub-flow name="formatOutputFlow" doc:name="formatOutputFlow">
-        <custom-transformer class="org.mule.templates.transformers.SortContactList" doc:name="Custom component to sort users list"/>
+        <custom-transformer class="org.mule.templates.transformers.SortContactList" doc:name="Custom component to sort contact list"/>
         <data-mapper:transform config-ref="csvreport_grf" doc:name="transform Collection of Maps to CSV Format"/>
         <object-to-string-transformer doc:name="CSV Output Object to String"/>
     </sub-flow>
