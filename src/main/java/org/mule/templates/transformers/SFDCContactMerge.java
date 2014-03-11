@@ -75,12 +75,10 @@ public class SFDCContactMerge extends AbstractMessageTransformer {
 
 	private Map<String, String> createMergedContact(Map<String, String> contact) {
 		Map<String, String> mergedContact = new HashMap<String, String>();
-		mergedContact.put("Email", contact.get("Email"));
 		mergedContact.put("Name", contact.get("Name"));
+		mergedContact.put("Email", contact.get("Email"));
 		mergedContact.put("IDInA", "");
-		mergedContact.put("ContactNameInA", "");
 		mergedContact.put("IDInB", "");
-		mergedContact.put("ContactNameInB", "");
 		return mergedContact;
 	}
 
