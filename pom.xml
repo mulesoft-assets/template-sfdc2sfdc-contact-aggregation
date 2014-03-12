@@ -7,7 +7,7 @@
 	<artifactId>sfdc2sfdc-contact-aggregation</artifactId>
 	<packaging>mule</packaging>
 	<version>1.0.0</version>
-    <name>SFDC2SFDCContactAggregation Mule Template Project</name>
+	<name>SFDC2SFDCContactAggregation Mule Template Project</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -470,8 +470,21 @@
 			<artifactId>mule-module-batch-ee</artifactId>
 			<version>${mule.version}</version>
 			<scope>test</scope>
-	      	<type>test-jar</type>
-      	</dependency>
+			<type>test-jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mule.tests</groupId>
+			<artifactId>mule-tests-functional</artifactId>
+			<version>3.5.0-M4-RC2</version>
+			<scope>test</scope>
+			<type>test-jar</type>
+		</dependency>
+
+
+
+
+
 	</dependencies>
 
 	<repositories>

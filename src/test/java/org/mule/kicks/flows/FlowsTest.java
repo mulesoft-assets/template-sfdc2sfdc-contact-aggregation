@@ -2,10 +2,6 @@ package org.mule.kicks.flows;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.junit.After;
@@ -14,11 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mule.MessageExchangePattern;
-import org.mule.api.MuleEvent;
 import org.mule.api.config.MuleProperties;
-import org.mule.construct.Flow;
-import org.mule.processor.chain.SubflowInterceptingChainLifecycleWrapper;
 import org.mule.tck.junit4.FunctionalTestCase;
 
 /**
