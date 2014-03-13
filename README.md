@@ -72,7 +72,7 @@ In order to use this Mule Template you need to configure properties (Credentials
 #### Mail details
 + mail.from `exampleuser@gmail.com`
 + mail.to `woody.guthrie@gmail.com`
-+ mail.subject `SFDC Users Report`
++ mail.subject `SFDC Contacts Report`
 + mail.body `Contacts report comparing contacts from SFDC Accounts`
 + attachment.name `OrderedReport.csv`
 

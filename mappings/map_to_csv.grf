@@ -15,7 +15,7 @@
 <Field containerType="SINGLE" label="Name" name="Name" size="10" type="string"/>
 <Field containerType="SINGLE" label="Email" name="Email" size="10" type="string"/>
 <Field containerType="SINGLE" label="Id in org A" name="IDInA" size="10" type="string"/>
-<Field containerType="SINGLE" eofAsDelimiter="true" label="Id in org A" name="IDInB" size="10" type="string"/>
+<Field containerType="SINGLE" eofAsDelimiter="true" label="Id in org B" name="IDInB" size="10" type="string"/>
 <Field __artificialType="_id" name="__id" type="long"/>
 </Record>
 </Metadata>
@@ -36,7 +36,7 @@
 ]]></attr>
 <attr name="_data_format"><![CDATA[MAP]]></attr>
 </Node>
-<Node charset="UTF-8" enabled="enabled" excludeFields="__id" fileURL="dict:outputPayload" guiName="CSV WRITER" guiX="900" guiY="20" id="DATA_WRITER0" quotedStrings="true" type="DATA_WRITER">
+<Node charset="UTF-8" enabled="enabled" excludeFields="__id" fileURL="dict:outputPayload" guiName="CSV WRITER" guiX="900" guiY="20" id="DATA_WRITER0" outputFieldNames="true" quotedStrings="true" type="DATA_WRITER">
 <attr name="_data_format"><![CDATA[CSV]]></attr>
 </Node>
 <Node enabled="enabled" guiName="Foreach 'Contact' -&gt; 'CSVReport'" guiX="460" guiY="20" id="FOREACH_CONTACT_CSVREPORT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
