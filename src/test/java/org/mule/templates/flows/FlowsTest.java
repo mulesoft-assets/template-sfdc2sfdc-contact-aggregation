@@ -22,7 +22,8 @@ import org.mule.processor.chain.SubflowInterceptingChainLifecycleWrapper;
 import org.mule.tck.junit4.FunctionalTestCase;
 
 /**
- * The objective of this class is to validate the correct behavior of the flows for this Mule Kick.
+ * The objective of this class is to validate the correct behavior of the flows
+ * for this Mule Kick.
  * 
  * @author cesar.garcia
  */
@@ -43,7 +44,8 @@ public class FlowsTest extends FunctionalTestCase {
 	protected String getConfigResources() {
 		Properties props = new Properties();
 		try {
-			props.load(new FileInputStream("./src/main/app/mule-deploy.properties"));
+			props.load(new FileInputStream(
+					"./src/main/app/mule-deploy.properties"));
 			return props.getProperty("config.resources");
 		} catch (Exception e) {
 			throw new IllegalStateException(
@@ -58,7 +60,8 @@ public class FlowsTest extends FunctionalTestCase {
 		String pathToResource = "./mappings";
 		File graphFile = new File(pathToResource);
 
-		properties.put(MuleProperties.APP_HOME_DIRECTORY_PROPERTY, graphFile.getAbsolutePath());
+		properties.put(MuleProperties.APP_HOME_DIRECTORY_PROPERTY,
+				graphFile.getAbsolutePath());
 
 		return properties;
 	}
@@ -66,35 +69,41 @@ public class FlowsTest extends FunctionalTestCase {
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void testAggregationFlow() throws Exception {
-		List<Map<String, String>> contactsFromOrgA = createContactLists("A", 0, 1);
-		List<Map<String, String>> contactsFromOrgB = createContactLists("B", 1, 2);
+		List<Map<String, String>> contactsFromOrgA = createContactLists("A", 0,
+				1);
+		List<Map<String, String>> contactsFromOrgB = createContactLists("B", 1,
+				2);
 
-		MuleEvent testEvent = getTestEvent("", MessageExchangePattern.REQUEST_RESPONSE);
-		testEvent.getMessage()
-					.setInvocationProperty(CONTACTS_FROM_ORG_A, contactsFromOrgA.iterator());
-		testEvent.getMessage()
-					.setInvocationProperty(CONTACTS_FROM_ORG_B, contactsFromOrgB.iterator());
+		MuleEvent testEvent = getTestEvent("",
+				MessageExchangePattern.REQUEST_RESPONSE);
+		testEvent.getMessage().setInvocationProperty(CONTACTS_FROM_ORG_A,
+				contactsFromOrgA.iterator());
+		testEvent.getMessage().setInvocationProperty(CONTACTS_FROM_ORG_B,
+				contactsFromOrgB.iterator());
 
 		SubflowInterceptingChainLifecycleWrapper flow = getSubFlow("aggregationFlow");
 		flow.initialise();
 		MuleEvent event = flow.process(testEvent);
 
 		Assert.assertTrue("The payload should not be null.", event.getMessage()
-																	.getPayload() != null);
-		Assert.assertFalse("The contact list should not be empty.", ((List) event.getMessage()
-																				.getPayload()).isEmpty());
+				.getPayload() != null);
+		Assert.assertFalse("The contact list should not be empty.",
+				((List) event.getMessage().getPayload()).isEmpty());
 	}
 
 	@Test
 	public void testFormatOutputFlow() throws Exception {
-		List<Map<String, String>> contactsFromOrgA = createContactLists("A", 0, 1);
-		List<Map<String, String>> contactsFromOrgB = createContactLists("B", 1, 2);
+		List<Map<String, String>> contactsFromOrgA = createContactLists("A", 0,
+				1);
+		List<Map<String, String>> contactsFromOrgB = createContactLists("B", 1,
+				2);
 
-		MuleEvent testEvent = getTestEvent("", MessageExchangePattern.REQUEST_RESPONSE);
-		testEvent.getMessage()
-					.setInvocationProperty(CONTACTS_FROM_ORG_A, contactsFromOrgA.iterator());
-		testEvent.getMessage()
-					.setInvocationProperty(CONTACTS_FROM_ORG_B, contactsFromOrgB.iterator());
+		MuleEvent testEvent = getTestEvent("",
+				MessageExchangePattern.REQUEST_RESPONSE);
+		testEvent.getMessage().setInvocationProperty(CONTACTS_FROM_ORG_A,
+				contactsFromOrgA.iterator());
+		testEvent.getMessage().setInvocationProperty(CONTACTS_FROM_ORG_B,
+				contactsFromOrgB.iterator());
 
 		SubflowInterceptingChainLifecycleWrapper flow = getSubFlow("aggregationFlow");
 		flow.initialise();
@@ -105,15 +114,15 @@ public class FlowsTest extends FunctionalTestCase {
 		event = flow.process(event);
 
 		Assert.assertTrue("The payload should not be null.", event.getMessage()
-																	.getPayload() != null);
+				.getPayload() != null);
 	}
 
 	private Flow getFlow(String flowName) {
-		return (Flow) muleContext.getRegistry()
-									.lookupObject(flowName);
+		return (Flow) muleContext.getRegistry().lookupObject(flowName);
 	}
- 
-	private List<Map<String, String>> createContactLists(String orgId, int start, int end) {
+
+	private List<Map<String, String>> createContactLists(String orgId,
+			int start, int end) {
 		List<Map<String, String>> contactList = new ArrayList<Map<String, String>>();
 		for (int i = start; i <= end; i++) {
 			contactList.add(createContact(orgId, i));
