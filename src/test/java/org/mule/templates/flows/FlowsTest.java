@@ -23,7 +23,7 @@ import org.mule.tck.junit4.FunctionalTestCase;
 
 /**
  * The objective of this class is to validate the correct behavior of the flows
- * for this Mule Kick.
+ * for this Mule Template.
  * 
  * @author cesar.garcia
  */

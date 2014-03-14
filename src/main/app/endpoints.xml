@@ -15,7 +15,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 
 	<!-- 	In this file you should declare all your inbound endpoints and from here controll the access to your application -->
 
-	<flow name="triggerFlow" processingStrategy="synchronous" doc:name="triggerFlow" doc:description="This is the simpliest entry point to start the excecution of your Kick
+	<flow name="triggerFlow" processingStrategy="synchronous" doc:name="triggerFlow" doc:description="This is the simpliest entry point to start the excecution of your Template
 Here you should:
 	* Define any inbound endpoint
 	* Handle any input parameter and transform it into the expected format by the mainFlow
@@ -34,7 +34,7 @@ Here you should:
 Here you should not: 
 	* Perform generic data transformation
 
-The outbountFlow is in this file in order to maintain the logical abstraction of the Kick.">
+The outbountFlow is in this file in order to maintain the logical abstraction of the Template.">
         <set-attachment attachmentName="${attachment.name}" value="#[payload]" contentType="text/plain" doc:name="Attach report to Email" doc:description="Set CSV as attachment"/>
         <set-payload value="${mail.body}" doc:name="Set mail body"/>
         <smtp:outbound-endpoint host="${smtp.host}" port="${smtp.port}" user="${smtp.user}" password="${smtp.password}" to="${mail.to}" from="${mail.from}" subject="${mail.subject}" responseTimeout="10000" connector-ref="gmailConnector" doc:name="Send mail"/>
