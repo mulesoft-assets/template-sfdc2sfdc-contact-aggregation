@@ -16,7 +16,7 @@ import com.google.common.collect.Lists;
  * This transformer will take to list as input and create a third one that will be the merge of the previous two. The identity of an element of the list is
  * defined by its email.
  * 
- * @author
+ * @author cesar.garcia
  */
 public class SFDCContactMerge extends AbstractMessageTransformer {
 
@@ -52,7 +52,6 @@ public class SFDCContactMerge extends AbstractMessageTransformer {
 		for (Map<String, String> contactFromA : contactsFromOrgA) {
 			Map<String, String> mergedContact = createMergedContact(contactFromA);
 			mergedContact.put("IDInA", contactFromA.get("Id"));
-			mergedContact.put("ContactNameInA", contactFromA.get("Name"));
 			mergedContactsList.add(mergedContact);
 		}
 
@@ -61,11 +60,9 @@ public class SFDCContactMerge extends AbstractMessageTransformer {
 			Map<String, String> contactFromA = findContactInList(contactsFromB.get("Email"), mergedContactsList);
 			if (contactFromA != null) {
 				contactFromA.put("IDInB", contactsFromB.get("Id"));
-				contactFromA.put("ContactNameInB", contactsFromB.get("Name"));
 			} else {
 				Map<String, String> mergedAccount = createMergedContact(contactsFromB);
 				mergedAccount.put("IDInB", contactsFromB.get("Id"));
-				mergedAccount.put("ContactNameInB", contactsFromB.get("Name"));
 				mergedContactsList.add(mergedAccount);
 			}
 
