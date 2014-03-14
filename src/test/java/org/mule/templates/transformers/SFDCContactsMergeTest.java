@@ -35,10 +35,12 @@ public class SFDCContactsMergeTest {
 		message.setInvocationProperty(QUERY_COMPANY_B, contactsB.iterator());
 
 		SFDCContactMerge transformer = new SFDCContactMerge();
-		List<Map<String, String>> mergedList = (List<Map<String, String>>) transformer.transform(message, "UTF-8");
+		List<Map<String, String>> mergedList = (List<Map<String, String>>) transformer
+				.transform(message, "UTF-8");
 
 		System.out.println(mergedList);
-		Assert.assertEquals("The merged list obtained is not as expected", createExpectedList(), mergedList);
+		Assert.assertEquals("The merged list obtained is not as expected",
+				createExpectedList(), mergedList);
 
 	}
 
@@ -70,7 +72,8 @@ public class SFDCContactsMergeTest {
 
 	}
 
-	private List<Map<String, String>> createContactLists(String orgId, int start, int end) {
+	private List<Map<String, String>> createContactLists(String orgId,
+			int start, int end) {
 		List<Map<String, String>> contactList = new ArrayList<Map<String, String>>();
 		for (int i = start; i <= end; i++) {
 			contactList.add(createContact(orgId, i));
@@ -88,4 +91,3 @@ public class SFDCContactsMergeTest {
 		return contact;
 	}
 }
-

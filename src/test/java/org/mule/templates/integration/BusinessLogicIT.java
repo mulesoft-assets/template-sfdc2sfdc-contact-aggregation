@@ -1,4 +1,4 @@
-package org.mule.kicks.integration;
+package org.mule.templates.integration;
 
 import java.io.File;
 import java.util.List;
