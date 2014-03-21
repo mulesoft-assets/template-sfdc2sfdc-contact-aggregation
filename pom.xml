@@ -493,7 +493,7 @@
 		<dependency>
 			<groupId>org.mule.tests</groupId>
 			<artifactId>mule-tests-functional</artifactId>
-			<version>3.5.0-M4-RC2</version>
+			<version>${mule.version}</version>
 			<scope>test</scope>
 			<type>test-jar</type>
 		</dependency>
