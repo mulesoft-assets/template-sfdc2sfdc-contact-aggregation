@@ -3,10 +3,9 @@
 
 + [Use Case](#usecase)
 + [Run it!](#runit)
-    * [Running on CloudHub](#runoncloudhub)
-       	* [Deploying your Template on CloudHub](#deployingyourtemplateoncloudhub)
     * [Running on premise](#runonopremise)
-        * [Properties to be configured](#propertiestobeconfigured)
+    * [Running on CloudHub](#runoncloudhub)
+    * [Properties to be configured](#propertiestobeconfigured)
 + [Customize It!](#customizeit)
     * [config.xml](#configxml)
     * [endpoints.xml](#endpointsxml)
@@ -27,6 +26,32 @@ As implemented, it gets contacts from two instances of Salesforce, compares by t
 # Run it! <a name="runit"/>
 
 Simple steps to get SFDC to SFDC Contact Aggregation running 
+
+In any of the ways you would like to run this Anypoint Template, here is an example of the output you'll see after hitting the HTTP endpoint:
+
+<pre>
+<h1>Batch Process initiated</h1>
+<b>ID:</b>6eea3cc6-7c96-11e3-9a65-55f9f3ae584e<br/>
+<b>Records to Be Processed: </b>9<br/>
+<b>Start execution on: </b>Mon Jan 13 18:05:33 GMT-03:00 2014
+</pre>
+
+## Running on premise <a name="runonopremise"/>
+
+In this section we detail the way you have to run you Anypoint Temple on you computer.
+
+### Running on Studio <a name="runonstudio"/>
+Once you have imported you Anypoint Template into Anypoint Studio you need to follow these steps to run it:
+
++ Locate the properties file `mule.dev.properties`, in src/main/resources
++ Complete all the properties required as per the examples in the section [Properties to be configured](#propertiestobeconfigured)
++ Once that is done, right click on you Anypoint Template project folder 
++ Hover you mouse over `"Run as"`
++ Click on  `"Mule Application"`
+
+
+### Running on Mule ESB stand alone <a name="runonmuleesbstandalone"/> 
+Complete all properties in one of the property files, for example in [mule.prod.properties] (../blob/master/src/main/resources/mule.prod.properties) and run your app with the corresponding environment variable to use it. To follow the example, this will be `mule.env=prod`.
 
 ## Running on CloudHub <a name="runoncloudhub"/>
 
