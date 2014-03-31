@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mule.templates</groupId>
-	<artifactId>sfdc2sfdc-contact-aggregation</artifactId>
+	<artifactId>template-sfdc2sfdc-contact-aggregation</artifactId>
 	<packaging>mule</packaging>
 	<version>1.0.0</version>
 	<name>SFDC2SFDCContactAggregation Mule Template Project</name>
