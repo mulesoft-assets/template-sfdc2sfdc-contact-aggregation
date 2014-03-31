@@ -6,6 +6,7 @@
     * [Running on premise](#runonopremise)
     * [Running on CloudHub](#runoncloudhub)
     * [Properties to be configured](#propertiestobeconfigured)
++ [API Calls](#apicalls)
 + [Customize It!](#customizeit)
     * [config.xml](#configxml)
     * [endpoints.xml](#endpointsxml)
@@ -101,6 +102,13 @@ In order to use this Mule Template you need to configure properties (Credentials
 + mail.body `Contacts report comparing contacts from SFDC Accounts`
 + attachment.name `OrderedReport.csv`
 
+# API Calls <a name="apicalls"/>
+
+SalesForce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. User Broadcast Template calls to the API can be calculated using the formula:
+
+***2***
+
+The reason for the "formula" to be a constant number is that this Anypoint Template only require two API call to recover the require data.
 
 # Customize It!<a name="customizeit"/>
 
