@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.mule.api.MuleMessage;
 import org.mule.api.transformer.TransformerException;
 import org.mule.transformer.AbstractMessageTransformer;
@@ -13,7 +14,8 @@ import org.mule.transformer.AbstractMessageTransformer;
 import com.google.common.collect.Lists;
 
 /**
- * This transformer will take to list as input and create a third one that will be the merge of the previous two. The identity of an element of the list is
+ * This transformer will take to list as input and create a third one that will
+ * be the merge of the previous two. The identity of an element of the list is
  * defined by its email.
  * 
  * @author cesar.garcia
@@ -26,7 +28,8 @@ public class SFDCContactMerge extends AbstractMessageTransformer {
 	@Override
 	public Object transformMessage(MuleMessage message, String outputEncoding) throws TransformerException {
 
-		List<Map<String, String>> mergedContactList = mergeList(getContactsList(message, QUERY_COMPANY_A), getContactsList(message, QUERY_COMPANY_B));
+		List<Map<String, String>> mergedContactList = mergeList(getContactsList(message, QUERY_COMPANY_A),
+				getContactsList(message, QUERY_COMPANY_B));
 
 		return mergedContactList;
 	}
@@ -79,14 +82,16 @@ public class SFDCContactMerge extends AbstractMessageTransformer {
 		return mergedContact;
 	}
 
-	private Map<String, String> findContactInList(String accountName, List<Map<String, String>> orgList) {
+	private Map<String, String> findContactInList(String email, List<Map<String, String>> orgList) {
+		if (StringUtils.isBlank(email)) {
+			return null;
+		}
+
 		for (Map<String, String> account : orgList) {
-			if (account.get("Email")
-						.equals(accountName)) {
+			if (StringUtils.isNotBlank(account.get("Email")) && account.get("Email").equals(email)) {
 				return account;
 			}
 		}
 		return null;
 	}
 }
-
