@@ -17,9 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.mule.DefaultMuleMessage;
 import org.mule.api.MuleContext;
-import org.mule.api.MuleMessage;
 import org.mule.api.transformer.TransformerException;
 
 @SuppressWarnings("unchecked")
@@ -35,13 +33,9 @@ public class SFDCContactsMergeTest {
 	public void testMerge() throws TransformerException {
 		List<Map<String, String>> contactsA = createContactLists("A", 0, 1);
 		List<Map<String, String>> contactsB = createContactLists("B", 1, 2);
-
-		MuleMessage message = new DefaultMuleMessage(null, muleContext);
-		message.setInvocationProperty(QUERY_COMPANY_A, contactsA.iterator());
-		message.setInvocationProperty(QUERY_COMPANY_B, contactsB.iterator());
-
-		SFDCContactMerge transformer = new SFDCContactMerge();
-		List<Map<String, String>> mergedList = (List<Map<String, String>>) transformer.transform(message, "UTF-8");
+		
+		SFDCContactMerge sfdcContactMerge = new SFDCContactMerge();
+		List<Map<String, String>> mergedList = sfdcContactMerge.mergeList(contactsA, contactsB);
 
 		System.out.println(mergedList);
 		Assert.assertEquals("The merged list obtained is not as expected", createExpectedList(), mergedList);
@@ -55,12 +49,8 @@ public class SFDCContactsMergeTest {
 
 		List<Map<String, String>> contactsB = createContactLists("B", 1, 2);
 
-		MuleMessage message = new DefaultMuleMessage(null, muleContext);
-		message.setInvocationProperty(QUERY_COMPANY_A, contactsA.iterator());
-		message.setInvocationProperty(QUERY_COMPANY_B, contactsB.iterator());
-
-		SFDCContactMerge transformer = new SFDCContactMerge();
-		List<Map<String, String>> mergedList = (List<Map<String, String>>) transformer.transform(message, "UTF-8");
+		SFDCContactMerge sfdcContactMerge = new SFDCContactMerge();
+		List<Map<String, String>> mergedList = sfdcContactMerge.mergeList(contactsA, contactsB);
 
 		System.out.println(mergedList);
 

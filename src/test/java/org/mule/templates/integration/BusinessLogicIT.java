@@ -6,23 +6,24 @@
 
 package org.mule.templates.integration;
 
-import org.junit.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.mule.MessageExchangePattern;
 import org.mule.api.MuleEvent;
 import org.mule.processor.chain.SubflowInterceptingChainLifecycleWrapper;
-import org.mule.streaming.ConsumerIterator;
 import org.mule.tck.junit4.rule.DynamicPort;
 import org.mule.templates.builders.SfdcObjectBuilder;
 
-import static org.mule.templates.builders.SfdcObjectBuilder.aContact;
-
 import com.sforce.soap.partner.SaveResult;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The objective of this class is to validate the correct behavior of the flows
@@ -142,34 +143,24 @@ public class BusinessLogicIT extends AbstractTemplateTestCase {
 				MessageExchangePattern.REQUEST_RESPONSE));
 		idList.clear();
 
+	}	
+	
+	@Test
+	public void testMainFlow() throws Exception {
+		MuleEvent event = runFlow("mainFlow");
+		Assert.assertTrue("The payload should not be null.", "Please find attached your Contacts Report".equals(event.getMessage().getPayload()));
 	}
-
+	
 	@Test
 	public void testGatherDataFlow() throws Exception {
 		SubflowInterceptingChainLifecycleWrapper flow = getSubFlow("gatherDataFlow");
+		flow.setMuleContext(muleContext);
 		flow.initialise();
-
-		MuleEvent event = flow.process(getTestEvent("",
-				MessageExchangePattern.REQUEST_RESPONSE));
-		Set<String> flowVariables = event.getFlowVariableNames();
-
-		Assert.assertTrue("The variable contactsFromOrgA is missing.",
-				flowVariables.contains(CONTACTS_FROM_ORG_A));
-		Assert.assertTrue("The variable contactsFromOrgB is missing.",
-				flowVariables.contains(CONTACTS_FROM_ORG_B));
-
-		ConsumerIterator<Map<String, String>> contactsFromOrgA = event
-				.getFlowVariable(CONTACTS_FROM_ORG_A);
-		ConsumerIterator<Map<String, String>> contactsFromOrgB = event
-				.getFlowVariable(CONTACTS_FROM_ORG_B);
-
-		Assert.assertTrue(
-				"There should be contacts in the variable contactsFromOrgA.",
-				contactsFromOrgA.size() != 0);
-		Assert.assertTrue(
-				"There should be contacts in the variable contactsFromOrgB.",
-				contactsFromOrgB.size() != 0);
-
+		flow.start();
+		MuleEvent event = flow.process(getTestEvent("", MessageExchangePattern.REQUEST_RESPONSE));
+		Iterator<Map<String, String>> mergedContactList = (Iterator<Map<String, String>>)event.getMessage().getPayload();
+		
+		Assert.assertTrue("There should be contacts from source A or source B.", mergedContactList.hasNext());
 	}
 
 }

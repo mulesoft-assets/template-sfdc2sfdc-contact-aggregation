@@ -8,16 +8,10 @@ package org.mule.templates.transformers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.mule.api.MuleMessage;
-import org.mule.api.transformer.TransformerException;
-import org.mule.transformer.AbstractMessageTransformer;
-
-import com.google.common.collect.Lists;
 
 /**
  * This transformer will take to list as input and create a third one that will
@@ -26,25 +20,8 @@ import com.google.common.collect.Lists;
  * 
  * @author cesar.garcia
  */
-public class SFDCContactMerge extends AbstractMessageTransformer {
-
-	private static final String QUERY_COMPANY_A = "contactsFromOrgA";
-	private static final String QUERY_COMPANY_B = "contactsFromOrgB";
-
-	@Override
-	public Object transformMessage(MuleMessage message, String outputEncoding) throws TransformerException {
-
-		List<Map<String, String>> mergedContactList = mergeList(getContactsList(message, QUERY_COMPANY_A),
-				getContactsList(message, QUERY_COMPANY_B));
-
-		return mergedContactList;
-	}
-
-	private List<Map<String, String>> getContactsList(MuleMessage message, String propertyName) {
-		Iterator<Map<String, String>> iterator = message.getInvocationProperty(propertyName);
-		return Lists.newArrayList(iterator);
-	}
-
+public class SFDCContactMerge {
+	
 	/**
 	 * The method will merge the accounts from the two lists creating a new one.
 	 * 
@@ -54,7 +31,7 @@ public class SFDCContactMerge extends AbstractMessageTransformer {
 	 *            contacts from organization B
 	 * @return a list with the merged content of the to input lists
 	 */
-	private List<Map<String, String>> mergeList(List<Map<String, String>> contactsFromOrgA, List<Map<String, String>> contactsFromOrgB) {
+	public List<Map<String, String>> mergeList(List<Map<String, String>> contactsFromOrgA, List<Map<String, String>> contactsFromOrgB) {
 		List<Map<String, String>> mergedContactsList = new ArrayList<Map<String, String>>();
 
 		// Put all contacts from A in the merged mergedContactsList
