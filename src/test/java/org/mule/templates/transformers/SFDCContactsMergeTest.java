@@ -28,8 +28,8 @@ public class SFDCContactsMergeTest {
 
 	@Test
 	public void testMerge() throws TransformerException {
-		List<Map<String, String>> contactsA = createContactLists("A", 0, 1);
-		List<Map<String, String>> contactsB = createContactLists("B", 1, 2);
+		List<Map<String, String>> contactsA = createLists("A", 0, 1);
+		List<Map<String, String>> contactsB = createLists("B", 1, 2);
 		
 		SFDCContactMerge sfdcContactMerge = new SFDCContactMerge();
 		List<Map<String, String>> mergedList = sfdcContactMerge.mergeList(contactsA, contactsB);
@@ -41,10 +41,10 @@ public class SFDCContactsMergeTest {
 
 	@Test
 	public void testMergeWithNullEmailValues() throws TransformerException {
-		List<Map<String, String>> contactsA = createContactLists("A", 0, 1);
+		List<Map<String, String>> contactsA = createLists("A", 0, 1);
 		contactsA.get(0).put("Email", null);
 
-		List<Map<String, String>> contactsB = createContactLists("B", 1, 2);
+		List<Map<String, String>> contactsB = createLists("B", 1, 2);
 
 		SFDCContactMerge sfdcContactMerge = new SFDCContactMerge();
 		List<Map<String, String>> mergedList = sfdcContactMerge.mergeList(contactsA, contactsB);
@@ -57,7 +57,7 @@ public class SFDCContactsMergeTest {
 
 	}
 
-	private List<Map<String, String>> createExpectedList() {
+	static List<Map<String, String>> createExpectedList() {
 		Map<String, String> contact0 = new HashMap<String, String>();
 		contact0.put("IDInA", "0");
 		contact0.put("IDInB", "");
@@ -85,7 +85,7 @@ public class SFDCContactsMergeTest {
 
 	}
 
-	private List<Map<String, String>> createContactLists(String orgId, int start, int end) {
+	static List<Map<String, String>> createLists(String orgId, int start, int end) {
 		List<Map<String, String>> contactList = new ArrayList<Map<String, String>>();
 		for (int i = start; i <= end; i++) {
 			contactList.add(createContact(orgId, i));
@@ -93,7 +93,7 @@ public class SFDCContactsMergeTest {
 		return contactList;
 	}
 
-	private Map<String, String> createContact(String orgId, int sequence) {
+	static Map<String, String> createContact(String orgId, int sequence) {
 		Map<String, String> contact = new HashMap<String, String>();
 
 		contact.put("Id", new Integer(sequence).toString());
