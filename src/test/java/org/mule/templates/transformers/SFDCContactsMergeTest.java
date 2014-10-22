@@ -20,12 +20,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.mule.api.MuleContext;
 import org.mule.api.transformer.TransformerException;
 
-@SuppressWarnings("unchecked")
 @RunWith(MockitoJUnitRunner.class)
 public class SFDCContactsMergeTest {
-	private static final String QUERY_COMPANY_A = "contactsFromOrgA";
-	private static final String QUERY_COMPANY_B = "contactsFromOrgB";
-
+	
 	@Mock
 	private MuleContext muleContext;
 

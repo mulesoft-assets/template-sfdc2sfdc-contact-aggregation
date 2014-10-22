@@ -32,11 +32,9 @@ import com.sforce.soap.partner.SaveResult;
  * @author cesar.garcia
  */
 public class BusinessLogicIT extends AbstractTemplateTestCase {
+
 	protected static final String TEMPLATE_NAME = "contact-aggregation";
-
-	private static final String CONTACTS_FROM_ORG_A = "contactsFromOrgA";
-	private static final String CONTACTS_FROM_ORG_B = "contactsFromOrgB";
-
+	
 	private List<Map<String, Object>> createdContactsInA = new ArrayList<Map<String, Object>>();
 	private List<Map<String, Object>> createdContactsInB = new ArrayList<Map<String, Object>>();
 
