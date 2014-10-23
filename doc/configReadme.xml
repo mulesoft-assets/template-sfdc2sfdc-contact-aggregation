@@ -44,28 +44,28 @@ After this, to trigger the use case you just need to hit the local http endpoint
 		</section>
 		<section id="application_configuration">
 		<![CDATA[
-**Application configuration**
+### Application configuration
 + http.port `9090` 
 
-**Salesforce Connector configuration for company A**
+### Salesforce Connector configuration for company A
 + sfdc.a.username `bob.dylan@orga`
 + sfdc.a.password `DylanPassword123`
 + sfdc.a.securityToken `avsfwCUl7apQs56Xq2AKi3X`
 + sfdc.a.url `https://login.salesforce.com/services/Soap/u/26.0`
 
-**Salesforce Connector configuration for company B**
+### Salesforce Connector configuration for company B
 + sfdc.b.username `joan.baez@orgb`
 + sfdc.b.password `JoanBaez456`
 + sfdc.b.securityToken `ces56arl7apQs56XTddf34X`
 + sfdc.b.url `https://login.salesforce.com/services/Soap/u/26.0`
 
-**SMPT Services configuration**
+### SMPT Services configuration
 + smtp.host `smtp.gmail.com`
 + smtp.port `587`
 + smtp.user `exampleuser@gmail.com`
 + smtp.password `ExamplePassword456`
 
-**Mail details**
+### Mail details
 + mail.from `exampleuser@gmail.com`
 + mail.to `woody.guthrie@gmail.com`
 + mail.subject `SFDC Contacts Report`

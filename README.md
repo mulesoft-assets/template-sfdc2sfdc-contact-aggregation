@@ -4,6 +4,7 @@
 + [License Agreement](#licenseagreement)
 + [Use Case](#usecase)
 + [Considerations](#considerations)
+	* [Salesforce Considerations](#salesforceconsiderations)
 + [Run it!](#runit)
 	* [Running on premise](#runonopremise)
 	* [Running on Studio](#runonstudio)
@@ -34,8 +35,53 @@ As implemented, it gets contacts from two instances of Salesforce, compares by t
 
 # Considerations <a name="considerations"/>
 
-
 To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in both, that must be made in order for all to run smoothly. **Failling to do so could lead to unexpected behavior of the template.**
+
+
+
+## Salesforce Considerations <a name="salesforceconsiderations"/>
+
+There may be a few things that you need to know regarding Salesforce, in order for this template to work.
+
+In order to have this template working as expected, you should be aware of your own Salesforce field configuration.
+
+###FAQ
+
+ - Where can I check that the field configuration for my Salesforce instance is the right one?
+
+    [Salesforce: Checking Field Accessibility for a Particular Field][1]
+
+- Can I modify the Field Access Settings? How?
+
+    [Salesforce: Modifying Field Access Settings][2]
+
+
+[1]: https://help.salesforce.com/HTViewHelpDoc?id=checking_field_accessibility_for_a_particular_field.htm&language=en_US
+[2]: https://help.salesforce.com/HTViewHelpDoc?id=modifying_field_access_settings.htm&language=en_US
+
+### As source of data
+
+If the user configured in the template for the source system does not have at least *read only* permissions for the fields that are fetched, then a *InvalidFieldFault* API fault will show up.
+
+```
+java.lang.RuntimeException: [InvalidFieldFault [ApiQueryFault [ApiFault  exceptionCode='INVALID_FIELD'
+exceptionMessage='
+Account.Phone, Account.Rating, Account.RecordTypeId, Account.ShippingCity
+^
+ERROR at Row:1:Column:486
+No such column 'RecordTypeId' on entity 'Account'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names.'
+]
+row='1'
+column='486'
+]
+]
+```
+
+### As destination of data
+
+There are no particular considerations for this Anypoint Template regarding Siebel as data destination.
+
+
 
 # Run it! <a name="runit"/>
 Simple steps to get Salesforce to Salesforce Contact Aggregation running.
@@ -97,28 +143,28 @@ Mule Studio provides you with really easy way to deploy your Template directly t
 ## Properties to be configured (With examples) <a name="propertiestobeconfigured"/>
 In order to use this Mule Anypoint Template you need to configure properties (Credentials, configurations, etc.) either in properties file or in CloudHub as Environment Variables. Detail list with examples:
 ### Application configuration
-**Application configuration**
+### Application configuration
 + http.port `9090` 
 
-**Salesforce Connector configuration for company A**
+### Salesforce Connector configuration for company A
 + sfdc.a.username `bob.dylan@orga`
 + sfdc.a.password `DylanPassword123`
 + sfdc.a.securityToken `avsfwCUl7apQs56Xq2AKi3X`
 + sfdc.a.url `https://login.salesforce.com/services/Soap/u/26.0`
 
-**Salesforce Connector configuration for company B**
+### Salesforce Connector configuration for company B
 + sfdc.b.username `joan.baez@orgb`
 + sfdc.b.password `JoanBaez456`
 + sfdc.b.securityToken `ces56arl7apQs56XTddf34X`
 + sfdc.b.url `https://login.salesforce.com/services/Soap/u/26.0`
 
-**SMPT Services configuration**
+### SMPT Services configuration
 + smtp.host `smtp.gmail.com`
 + smtp.port `587`
 + smtp.user `exampleuser@gmail.com`
 + smtp.password `ExamplePassword456`
 
-**Mail details**
+### Mail details
 + mail.from `exampleuser@gmail.com`
 + mail.to `woody.guthrie@gmail.com`
 + mail.subject `SFDC Contacts Report`
@@ -145,7 +191,7 @@ Of course more files will be found such as Test Classes and [Mule Application Fi
 Here is a list of the main XML files you'll find in this application:
 
 * [config.xml](#configxml)
-* [inboundEndpoints.xml](#inboundendpointsxml)
+* [endpoints.xml](#endpointsxml)
 * [businessLogic.xml](#businesslogicxml)
 * [errorHandling.xml](#errorhandlingxml)
 
