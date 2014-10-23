@@ -44,7 +44,6 @@ After this, to trigger the use case you just need to hit the local http endpoint
 		</section>
 		<section id="application_configuration">
 		<![CDATA[
-### Application configuration
 + http.port `9090` 
 
 ### Salesforce Connector configuration for company A
