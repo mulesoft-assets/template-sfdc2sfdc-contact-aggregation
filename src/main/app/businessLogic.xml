@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" 
-xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" 
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:weave="http://www.mulesoft.org/schema/mule/ee/weave" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" 
 xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
 xmlns="http://www.mulesoft.org/schema/mule/core" 
 xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
 xmlns:spring="http://www.springframework.org/schema/beans" 
-version="EE-3.6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+version="EE-3.7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
-http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
-    <data-mapper:config name="map_to_csv" transformationGraphPath="map_to_csv.grf" doc:name="map_to_csv"/>
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/weave http://www.mulesoft.org/schema/mule/ee/weave/current/weave.xsd">
  
    <flow name="mainFlow"  doc:description="This flow is the entry point to the Template business logic.
 
@@ -24,19 +22,31 @@ This flow should control the direction of the application, and it should be call
         <exception-strategy ref="defaultChoiceExceptionStrategy" doc:name="Reference Exception Strategy"/>
     </flow>
   
-    <sub-flow name="gatherDataFlow" >
+    <flow name="gatherDataFlow" processingStrategy="synchronous">
         <scatter-gather doc:name="Scatter-Gather">
             <custom-aggregation-strategy class="org.mule.templates.transformers.SFDCContactMergeAggregationStrategy"/>
             <sfdc:query config-ref="SalesforceA" query="dsql:SELECT Name, Email, Id  FROM Contact" doc:name="Query all contacts from SalesForce instance A"/>
             <sfdc:query config-ref="SalesforceB" query="dsql:SELECT Name, Email, Id  FROM Contact" doc:name="Query all contacts from SalesForce instance B"/>
         </scatter-gather>
-
-    </sub-flow>
+    </flow>
 
     
-    <sub-flow name="formatOutputFlow" >
+    <flow name="formatOutputFlow" processingStrategy="synchronous">
         <custom-transformer class="org.mule.templates.transformers.SortContactList" doc:name="Custom component to sort contact list"/>
-        <data-mapper:transform config-ref="map_to_csv" doc:name="Transform Collection of Maps to CSV Format"/>
+        <weave:transform-message doc:name="Map Collection to CSV">
+            <weave:set-payload><![CDATA[%weave 0.1
+%input payload application/java
+%output application/csv
+---
+payload map
+{
+	Email: $.Email when ($.Email != null) otherwise "",
+	IDInA: $.IDInA when ($.IDInA != null) otherwise "",
+	IDInB: $.IDInB when ($.IDInB != null) otherwise "",
+	Name: $.Name when ($.Name != null) otherwise ""
+}]]></weave:set-payload>
+        </weave:transform-message>
+
         <object-to-string-transformer doc:name="CSV Output Object to String"/>
-    </sub-flow>
+    </flow>
 </mule>

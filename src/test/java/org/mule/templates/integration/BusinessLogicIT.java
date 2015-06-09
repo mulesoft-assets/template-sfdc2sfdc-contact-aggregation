@@ -151,11 +151,7 @@ public class BusinessLogicIT extends AbstractTemplateTestCase {
 	
 	@Test
 	public void testGatherDataFlow() throws Exception {
-		SubflowInterceptingChainLifecycleWrapper flow = getSubFlow("gatherDataFlow");
-		flow.setMuleContext(muleContext);
-		flow.initialise();
-		flow.start();
-		MuleEvent event = flow.process(getTestEvent("", MessageExchangePattern.REQUEST_RESPONSE));
+		MuleEvent event = runFlow("gatherDataFlow");
 		Iterator<Map<String, String>> mergedContactList = (Iterator<Map<String, String>>)event.getMessage().getPayload();
 		
 		Assert.assertTrue("There should be contacts from source A or source B.", mergedContactList.hasNext());
