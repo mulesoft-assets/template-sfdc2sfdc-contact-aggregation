@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configuration>
 	<placeholders>
-		<placeholder id="template_name">Salesforce to Salesforce Contact Aggregation</placeholder>
+		<placeholder id="template_name">Salesforce Org to Org Contact Aggregation</placeholder>
 	</placeholders>
 	<sections>
 		<section id="use_case">
