@@ -230,7 +230,7 @@ Criteria and format applied:
 All records ordered alphabetically by mail within each category.
 If you want to change this order then the *compare* method should be modified.
 
-+ CSV Report [DataWeave](http://www.mulesoft.org/documentation/display/current/Weave+Reference+Documentation) transforming the List of Maps in CSV with headers **Name**, **Email**, **IDInA**, and **IDInB**.
++ CSV Report [DataWeave](https://developer.mulesoft.com/docs/display/current/DataWeave+Reference+Documentation) transforming the List of Maps in CSV with headers **Name**, **Email**, **IDInA**, and **IDInB**.
 + An [Object to string transformer](http://www.mulesoft.org/documentation/display/current/Transformers) is used to set the payload as an String.
 
 
