@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" 
+	xmlns="http://www.mulesoft.org/schema/mule/core" 
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="test-suite.xml" doc:name="MUnit configuration"/>
+	<configuration-properties doc:name="Configuration properties" doc:id="d34b6ca0-3410-496a-ac22-3403f0aa4982" file="mule.${mule.env}.properties" />
+	<configuration-properties doc:name="Configuration properties" doc:id="ae91b46e-c085-4915-aa74-9dfa2d191b3c" file="mule-artifact.properties" />
+	<configuration-properties doc:name="Configuration properties" doc:id="a08ee38f-aed2-40e1-9a58-1b81c3a927d2" file="common.properties" />
+	<munit:before-test name="test-suiteBefore_Test" description="Before tests actions" doc:id="dd926b1a-c4d0-4f53-91be-48505fc17bd4" >
+		<ee:transform doc:name="Prepare testing data for instance A" doc:id="5c18e5f1-ca7b-4ec6-847e-4b4d6c06df12">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+[{
+	Lastname: "TestRecord1",
+	Email: "testrecord1@gmail.com"
+},
+{
+	Lastname: "TestRecord2",
+	Email: "testrecord2@gmail.com"
+}]
+
+]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		<salesforce:create type="Contact" doc:name="Create Contacts in instance A" doc:id="ff84bbcd-a9bb-450f-a0dc-1a2bad0b7494" config-ref="Salesforce_Sfdc_A_config"/>
+		<ee:transform doc:name="Store Ids from A and prepare testing data for instance B" doc:id="674c19da-879b-446a-bd67-fecc6c713299">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+[{
+	Lastname: "TestRecord1",
+	Email: "testrecord1@gmail.com"
+},
+{
+	Lastname: "TestRecord3",
+	Email: "testrecord03@gmail.com"
+}]]]></ee:set-payload>
+				</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="IdsA" ><![CDATA[%dw 2.0
+output application/java
+---
+payload map ($.id)]]></ee:set-variable>
+			</ee:variables>
+			</ee:transform>
+		<salesforce:create type="Contact" doc:name="Create Contacts in instance B" doc:id="2acbb016-4a7d-45d9-a65c-1adca5b89ff2" config-ref="Salesforce_Sfdc_B_config"/>
+		<set-variable value="#[payload map ($.id)]" doc:name="Store Ids from B" doc:id="da403f4e-a8ae-45a4-a2a5-0b93023eba75" variableName="IdsB"/>
+		<munit-tools:mock-when doc:name="Mock email processor to avoid sending email" doc:id="a1b90470-8422-40cf-a108-230b78792802" processor="email:send">
+				<munit-tools:then-return />
+			</munit-tools:mock-when>
+	</munit:before-test>
+
+	<munit:test name="test-suite-businesslogicFlowTest" description="Test" doc:id="f90c38e5-d88e-4024-8c2b-750e275dbc47" >
+		<munit:execution >
+			<flow-ref doc:name="businesslogicFlow" doc:id="bd42401a-8ed3-4266-8e8d-ddfe31fca855" name="businesslogicFlow"/>
+			<ee:transform doc:name="Filtering test records" doc:id="30212314-3885-4ec1-a8da-89a1cc3937e4">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload filter ($.Name == "TestRecord1" or $.Name == "TestRecord2" or $.Name == "TestRecord3")]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert number of records" doc:id="bb17fd1f-7966-427b-acf4-00d5e2ddf47c" expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(3)]" message="Assert number of records"/>
+			<munit-tools:assert-that doc:name="Assert that name in first record is correct" doc:id="29de3e0a-d09b-49cb-9bc7-55026b0ed32c" is="#[MunitTools::equalTo('TestRecord2')]" expression="#[payload[0].Name]" message="Assert that name in first record is correct"/>
+			<munit-tools:assert-that doc:name="Assert that first record exists in instance A" doc:id="9a1ddb85-f051-4c66-adc5-57adf73d2790" expression="#[payload[0].IDInA]" is="#[MunitTools::not(MunitTools::isEmptyOrNullString())]" message="Assert that first record exists in instance A"/>
+			<munit-tools:assert-that doc:name="Assert that first record does not exist in instance B" doc:id="3598c11b-03ec-466d-a14d-61e441f55878" expression="#[payload[0].IDInB]" is="#[MunitTools::isEmptyOrNullString()]" message="Assert that first record does not exist in instance B"/>
+			<munit-tools:assert-that doc:name="Assert that name in second record is correct" doc:id="2e1f3a39-4e9f-4a74-972a-1bc7e2f962df" is="#[MunitTools::equalTo('TestRecord3')]" expression="#[payload[1].Name]" message="Assert that name in second record is correct"/>
+			<munit-tools:assert-that doc:name="Assert that secord record does not exist in instance A" doc:id="ad02e4e6-1da7-42ab-8b82-d441890cb54d" expression="#[payload[1].IDInA]" is="#[MunitTools::isEmptyOrNullString()]" message="Assert that secord record does not exist in instance A"/>
+			<munit-tools:assert-that doc:name="Assert that secord record exists in instance B" doc:id="a30de96e-da70-4637-8b0a-e78cce3c94b6" is="#[MunitTools::not(MunitTools::isEmptyOrNullString())]" expression="#[payload[1].IDInB]" message="Assert that secord record exists in instance B"/>
+			<munit-tools:assert-that doc:name="Assert that name in third record is correct" doc:id="28cc5793-056b-4a67-aa2e-e8a41ae7357e0" is="#[MunitTools::equalTo('TestRecord1')]" expression="#[payload[2].Name]" message="Assert that name in third record is correct"/>
+			<munit-tools:assert-that doc:name="Assert that third record exists in instance A" doc:id="a208e246-d154-4ea6-a41d-6fb59fbec875" expression="#[payload[2].IDInA]" is="#[MunitTools::not(MunitTools::isEmptyOrNullString())]" message="Assert that third record exists in instance A"/>
+			<munit-tools:assert-that doc:name="Assert that third record exists in instance B" doc:id="0ec9fef6-5452-4cd7-a4f0-1897ba6156c8" expression="#[payload[2].IDInB]" is="#[MunitTools::not(MunitTools::isEmptyOrNullString())]" message="Assert that third record exists in instance B"/>
+		</munit:validation>
+	</munit:test>
+	<munit:after-test name="test-suiteAfter_Test" description="After tests actions" doc:id="9b89a962-7485-4167-b2fa-4f2f8d9ffc22" >
+		<salesforce:delete doc:name="Delete source Contacts in instance A" doc:id="fe0fd03f-4609-464a-b4f9-46305d50e359" config-ref="Salesforce_Sfdc_A_config">
+				<salesforce:delete-ids><![CDATA[#[vars.IdsA]]]></salesforce:delete-ids>
+			</salesforce:delete>
+		<salesforce:delete doc:name="Delete source Contacts in instance B" doc:id="0994d166-37b3-465e-8b41-8c652eb97928" config-ref="Salesforce_Sfdc_B_config">
+			<salesforce:delete-ids ><![CDATA[#[vars.IdsB]]]></salesforce:delete-ids>
+		</salesforce:delete>
+	</munit:after-test>
+</mule>
