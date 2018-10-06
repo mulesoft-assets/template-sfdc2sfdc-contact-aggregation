@@ -25,17 +25,17 @@ Note that using this template is subject to the conditions of this [License Agre
 Please review the terms of the license before downloading and using this template. In short, you are allowed to use the template for free with Mule ESB Enterprise Edition, CloudHub, or as a trial in Anypoint Studio.
 
 # Use Case <a name="usecase"/>
-As a Salesforce admin I want to aggregate contacts from two Salesforce Instances and compare them to see which contacts can only be found in one of the two and which contacts are in both instances. 
+As a Salesforce administrator I want to aggregate contacts from two Salesforce instances and compare them to see which contacts can only be found in one of the two and which contacts are in both instances. 
 
-For practical purposes this Template will generate the result in the format of a CSV Report sent by mail.
+This template generates the result in the format of a CSV Report sent by mail.
 
-This Template should serve as a foundation for extracting data from two systems, aggregating data, comparing values of fields for the objects, and generating a report on the differences. 
+This template serves as a foundation for extracting data from two systems, aggregating data, comparing values of fields for the objects, and generating a report on the differences. 
 
-As implemented, it gets contacts from two instances of Salesforce, compares by the email address of the contacts, and generates a CSV file which shows contact in A, contact in B, and contacts in A and B. The report is then send the email to a configured group of email addresses.
+This template contacts from two instances of Salesforce, compares by the email address of the contacts, and generates a CSV file which shows contact in A, contact in B, and contacts in A and B. The report is sent by email to a configured group of email addresses.
 
 # Considerations <a name="considerations"/>
 
-To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in both, that must be made in order for all to run smoothly. **Failling to do so could lead to unexpected behavior of the template.**
+To make this template run, there are certain preconditions that must be considered. All of them deal with the preparations in both, that must be made for all to run smoothly. Failing to do so can lead to unexpected behavior of the template.
 
 
 
@@ -94,9 +94,9 @@ Simple steps to get Salesforce Org to Org Contact Aggregation running.
 
 
 ## Running on premise <a name="runonopremise"/>
-Complete all properties in one of the property files, for example in [mule.prod.properties] (../blob/master/src/main/resources/mule.prod.properties) and run your app with the corresponding environment variable to use it. To follow the example, this will be `mule.env=prod`.
+Complete all properties in one of the property files, for example in mule.prod.properties and run your app with the corresponding environment variable to use it. To follow this example, use `mule.env=prod`.
 
-After this, to trigger the use case you just need to hit the local http endpoint with the port you configured in your file. If this is, for instance, `9090` then you should hit: `http://localhost:9090/generatereport` and this will create a CSV report and send it to the mails set.
+After this, to trigger the use case you just need to browse to the HTTP endpoint with the port you configured in your file. If this is, for instance, `9090` then browse to `http://localhost:9090/generatereport` and this creates a CSV report and send it to the mails set.
 
 
 ### Where to Download Mule Studio and Mule ESB
@@ -133,7 +133,7 @@ Complete all properties in one of the property files, for example in [mule.prod.
 
 ## Running on CloudHub <a name="runoncloudhub"/>
 While [creating your application on CloudHub](http://www.mulesoft.org/documentation/display/current/Hello+World+on+CloudHub) (Or you can do it later as a next step), you need to go to Deployment > Advanced to set all environment variables detailed in **Properties to be configured** as well as the **mule.env**.
-Once your app is all set and started, supposing you choose as domain name `sfdccontactaggregation` to trigger the use case you just need to hit `http://sfdccontactaggregation.cloudhub.io/generatereport` and the report will be sent to the emails configured.
+After you have your app running, if you chose as domain name `sfdccontactaggregation` to trigger the use case, browse to `http://sfdccontactaggregation.cloudhub.io/generatereport` and the report is sent to the emails you configured.
 
 ### Deploying your Anypoint Template on CloudHub <a name="deployingyouranypointtemplateoncloudhub"/>
 Mule Studio provides you with really easy way to deploy your Template directly to CloudHub, for the specific steps to do so please check this [link](http://www.mulesoft.org/documentation/display/current/Deploying+Mule+Applications#DeployingMuleApplications-DeploytoCloudHub)
@@ -144,33 +144,37 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 ### Application configuration
 + http.port `9090` 
 
-### Salesforce Connector configuration for company A
+### Salesforce Connector Configuration for Company A
+
 + sfdc.a.username `bob.dylan@orga`
 + sfdc.a.password `DylanPassword123`
 + sfdc.a.securityToken `avsfwCUl7apQs56Xq2AKi3X`
-+ sfdc.a.url `https://login.salesforce.com/services/Soap/u/40.0`
++ sfdc.a.url `https://login.salesforce.com/services/Soap/u/42.0`
 
-### Salesforce Connector configuration for company B
+### Salesforce Connector Configuration for Company B
+
 + sfdc.b.username `joan.baez@orgb`
 + sfdc.b.password `JoanBaez456`
 + sfdc.b.securityToken `ces56arl7apQs56XTddf34X`
-+ sfdc.b.url `https://login.salesforce.com/services/Soap/u/40.0`
++ sfdc.b.url `https://login.salesforce.com/services/Soap/u/42.0`
 
-### SMTP Services configuration
-+ smtp.host `smtp.gmail.com`
+### SMTP Services Configuration
+
++ smtp.host `smtp.example.com`
 + smtp.port `587`
-+ smtp.user `exampleuser@gmail.com`
++ smtp.user `exampleuser@example.com`
 + smtp.password `ExamplePassword456`
 
-### Mail details
-+ mail.from `exampleuser@gmail.com`
-+ mail.to `woody.guthrie@gmail.com`
+### Email Details
+
++ mail.from `exampleuser@example.com`
++ mail.to `woody.guthrie@example.com`
 + mail.subject `SFDC Contacts Report`
 + mail.body `Contacts report comparing contacts from SFDC Accounts`
 + attachment.name `OrderedReport.csv`
 
 # API Calls <a name="apicalls"/>
-Salesforce imposes limits on the number of API Calls that can be made. However, we make API call to Salesforce only once during aggregation.
+Salesforce imposes limits on the number of API calls that can be made. This template only makes one API call to Salesforce during aggregation.
 
 
 # Customize It!<a name="customizeit"/>
@@ -193,27 +197,27 @@ In the visual editor they can be found on the *Global Element* tab.
 
 
 ## businessLogic.xml<a name="businesslogicxml"/>
-Functional aspect of the Template is implemented on this XML, directed by one flow responsible of conducting the aggregation of data, comparing records and finally formating the output, in this case being a report.
+The functional aspect of the template is implemented in this XML file, directed by a flow responsible of conducting the aggregation of data, comparing records and finally formatting the output, in this case being a report.
 
-Using Scatter-Gather component we are querying the data in different systems. After that the aggregation is implemented in DataWeave 2 script using Transform component.
+Using the Scatter-Gather component we are querying the data in different systems. After that the aggregation is implemented in a DataWeave 2 script using the Transform component.
 Aggregated results are sorted by source of existence:
 
 1. Contacts only in Salesforce A
 2. Contacts only in Salesforce B
 3. Contacts in both Salesforce A and Salesforce B
 
-and transformed to CSV format. Final report in CSV format is sent to email, that you configured in mule.*.properties file.
+The output is transformed to CSV format. The final report in CSV format is sent to the email addresses that you configured in the `mule.*.properties` file.
 
 
 
 ## endpoints.xml<a name="endpointsxml"/>
-This is the file where you will found the endpoint to start the aggregation. This Template has an HTTP Inbound Endpoint as the way to trigger the use case.
+This is the file where you find the endpoint to start the aggregation. This template has an HTTP Listener as the way to trigger the use case.
 
 ### Trigger Flow
-**HTTP Inbound Endpoint** - Start Report Generation
+**HTTP Listener** - Start Report Generation
 + `${http.port}` is set as a property to be defined either on a property file or in CloudHub environment variables.
 + The path configured by default is `generatereport` and you are free to change for the one you prefer.
-+ The host name for all endpoints in your CloudHub configuration should be defined as `localhost`. CloudHub will then route requests from your application domain URL to the endpoint.
++ The host name for all endpoints in your CloudHub configuration should be defined as `localhost`. CloudHub routes requests from your application domain URL to the endpoint.
 
 
 
