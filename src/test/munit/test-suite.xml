@@ -13,9 +13,7 @@
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<munit:config name="test-suite.xml" doc:name="MUnit configuration"/>
-	<configuration-properties doc:name="Configuration properties" doc:id="d34b6ca0-3410-496a-ac22-3403f0aa4982" file="mule.${mule.env}.properties" />
-	<configuration-properties doc:name="Configuration properties" doc:id="ae91b46e-c085-4915-aa74-9dfa2d191b3c" file="mule-artifact.properties" />
-	<configuration-properties doc:name="Configuration properties" doc:id="a08ee38f-aed2-40e1-9a58-1b81c3a927d2" file="common.properties" />
+	<configuration-properties doc:name="Configuration properties" doc:id="d34b6ca0-3410-496a-ac22-3403f0aa4982" file="mule.test.properties" />
 	<munit:before-test name="test-suiteBefore_Test" description="Before tests actions" doc:id="dd926b1a-c4d0-4f53-91be-48505fc17bd4" >
 		<ee:transform doc:name="Prepare testing data for instance A" doc:id="5c18e5f1-ca7b-4ec6-847e-4b4d6c06df12">
 				<ee:message>
